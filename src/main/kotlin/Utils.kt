@@ -12,7 +12,7 @@ fun readInput(name: String) = readInput(Path("src/$name.txt"))
 /**
  * Reads lines from the given input path.
  */
-fun readInput(path: Path) = path.readText().trim().lines()
+fun readInput(path: Path) = path.readText().lines()
 
 /**
  * Converts string to md5 hash.
