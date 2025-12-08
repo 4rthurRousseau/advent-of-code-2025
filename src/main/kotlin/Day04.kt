@@ -5,8 +5,31 @@ class Day04 : Day(4) {
     }
 
     override fun part1(input: List<String>): Any {
-        val grid = input.map { it.map { it } }
+        val grid = input.map { it.map { it }.toMutableList() }.toMutableList()
+        return findRemovableRolls(grid).size
+    }
+
+    override fun part2(input: List<String>): Any {
+        val grid = input.map { it.map { it }.toMutableList() }.toMutableList()
+
         var count = 0
+        while (true) {
+            val removable = findRemovableRolls(grid)
+            if (removable.isEmpty()) {
+                break
+            }
+
+            count += removable.size
+            removable.forEach { (row, col) ->
+                grid[row][col] = '.'
+            }
+        }
+
+        return count
+    }
+
+    private fun findRemovableRolls(grid: List<List<Char>>): List<Pair<Int, Int>> {
+        val removable = mutableListOf<Pair<Int, Int>>()
 
         grid.forEachIndexed { y, row ->
             row.forEachIndexed { x, cell ->
@@ -14,21 +37,16 @@ class Day04 : Day(4) {
                     return@forEachIndexed
                 }
 
-                val adjactentRolls = countAdjacentRolls(grid, x, y)
-                if (adjactentRolls < 4) {
-                    count++
+                if (isRemovable(grid, x, y)) {
+                    removable.add(Pair(y, x))
                 }
             }
         }
 
-        return count
+        return removable
     }
 
-    override fun part2(input: List<String>): Any {
-        return 0
-    }
-
-    fun countAdjacentRolls(grid: List<List<Char>>, x: Int, y: Int) : Int {
+    fun isRemovable(grid: List<List<Char>>, x: Int, y: Int): Boolean {
         var count = 0
 
         val picks = listOf(
@@ -50,7 +68,7 @@ class Day04 : Day(4) {
             count += if (value == ROLL) 1 else 0
         }
 
-        return count
+        return count < 4
     }
 }
 
