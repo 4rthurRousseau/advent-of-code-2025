@@ -5,12 +5,12 @@ class Day04 : Day(4) {
     }
 
     override fun part1(input: List<String>): Any {
-        val grid = input.map { it.map { it }.toMutableList() }.toMutableList()
+        val grid = input.asGrid()
         return findRemovableRolls(grid).size
     }
 
     override fun part2(input: List<String>): Any {
-        val grid = input.map { it.map { it }.toMutableList() }.toMutableList()
+        val grid = input.asMutableGrid()
 
         var count = 0
         while (true) {
